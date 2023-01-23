@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { recordAnalytic } from './lib/recordAnalytic';
 
 let ID_COUNT = 0;
 
@@ -11,6 +12,14 @@ interface Todo {
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [description, setDescription] = useState("");
+  const [analyticRecorded, setAnalyticRecorded] = useState(false);
+
+  useEffect(() => {
+    if (todos.length === 2 && !analyticRecorded) {
+      recordAnalytic();
+      setAnalyticRecorded(true);
+    }
+  }, [todos, analyticRecorded]);
 
   function saveTodo() {
     if (description === "") return;
@@ -26,7 +35,6 @@ function App() {
     todo.completed = !todo.completed;
     setTodos([...todos]);
   }
-
 
   return (
     <div>

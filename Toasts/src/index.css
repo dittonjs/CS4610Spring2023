@@ -1,0 +1,23 @@
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+
+.toast {
+  position: fixed;
+  padding: 16px;
+  color: white;
+  background-color: rebeccapurple;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100px);
+  transition: all .3s ease;
+}
+
+.toast.open {
+  transform: translateY(0px);
+}
