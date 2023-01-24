@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, KeyboardEvent } from 'react';
 import { recordAnalytic } from './lib/recordAnalytic';
-
 let ID_COUNT = 0;
 
 interface Todo {
