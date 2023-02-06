@@ -3,10 +3,60 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+#root {
+  margin: 0;
+  height: 100vh;
+}
+
+div {
+  background-color: red;
+}
+
+.container {
+  background-color: blue;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.container input {
+  font-size: 24px;
+}
+
+.container:hover {
+  background-color: green;
+}
+
+div:has(input) {
+  padding: 16px;
+  background-color: yellow;
+}
+
+.content {
+  width: clamp(360px, 50%, 760px);
+}
+
+.todo-controls {
+  display: flex;
+}
+
+.todo-controls input {
+  flex: 1;
+}
+
+
+
+

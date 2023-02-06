@@ -1,6 +1,9 @@
 import { useState, useEffect, KeyboardEvent } from 'react';
 import { recordAnalytic } from './lib/recordAnalytic';
+import styles from './App.module.css';
+
 let ID_COUNT = 0;
+
 
 interface Todo {
   id: number;
@@ -36,24 +39,26 @@ function App() {
   }
 
   return (
-    <div>
-      <div>
-        <input
-          type="text"
-          value={description}
-          placeholder="The thing you need to do"
-          onChange={e => setDescription(e.target.value)}
-        />
-        <button onClick={saveTodo}>Save</button>
-      </div>
-      <div>
-        {
-          todos.map((todo) => (
-            <div key={todo.id}>
-              <input checked={todo.completed} type="checkbox" onChange={() => toggleTodo(todo)}/> {todo.description}
-            </div>
-          ))
-        }
+    <div className={styles.container}>
+      <div className="content">
+        <div id={styles.yellow} className="todo-controls">
+          <input
+            type="text"
+            value={description}
+            placeholder="The thing you need to do"
+            onChange={e => setDescription(e.target.value)}
+          />
+          <button onClick={saveTodo}>Save</button>
+        </div>
+        <div>
+          {
+            todos.map((todo) => (
+              <div key={todo.id}>
+                <input checked={todo.completed} type="checkbox" onChange={() => toggleTodo(todo)}/> {todo.description}
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   )
