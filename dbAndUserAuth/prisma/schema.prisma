@@ -15,8 +15,8 @@ model User {
   firstName String
   lastName String
   email String
-  password String
-  sessions Session[]
+  passwordHash String
+  session Session[]
 }
 
 model Session {
