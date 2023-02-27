@@ -1,0 +1,14 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.navbar {
+  background-color: rebeccapurple;
+  padding: 16px;
+  color: white;
+  font-size: 2em;
+}
