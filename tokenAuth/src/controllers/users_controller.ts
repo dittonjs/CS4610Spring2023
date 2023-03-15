@@ -20,7 +20,6 @@ const getMe = (client: PrismaClient): RequestHandler =>
     });
 
     res.json({ user });
-    // TODO get the user
   }
 
 type CreateUserBody = {
@@ -46,7 +45,7 @@ const createUser = (client: PrismaClient): RequestHandler =>
     const token = jwt.sign({
       userId: user.id
     }, process.env.ENCRYPTION_KEY!!, {
-      expiresIn: '1m'
+      expiresIn: '30d'
     });
 
     res.json({ user, token });

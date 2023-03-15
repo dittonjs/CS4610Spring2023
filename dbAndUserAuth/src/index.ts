@@ -5,7 +5,9 @@ const app = express();
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from 'uuid';
 import cookieParser from "cookie-parser";
+import cors from 'cors';
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
@@ -114,6 +116,14 @@ app.get("/me", async (req: RequestWithSession, res) => {
   } else {
     res.status(401).json({ message: "unauthorized"});
   }
+})
+
+app.get('/cookie', (req, res) => {
+  console.log(req.cookies)
+  res.cookie("test", "I am a test cookie", {
+    sameSite: "none",
+    secure: true,
+  });
 })
 
 app.get("/", (req, res) => {

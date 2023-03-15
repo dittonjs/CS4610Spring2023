@@ -1,20 +1,19 @@
-import express, { RequestHandler } from "express";
-import { PrismaClient, User } from "@prisma/client";
+import express from "express";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { JWTBody, RequestWithJWTBody } from "./dto/jwt";
 import { usersController } from "./controllers/users_controller";
 
 dotenv.config();
 const client = new PrismaClient();
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-
-//sign up
 
 type LoginBody = {
   email: string,
@@ -43,7 +42,7 @@ app.post("/sessions",  async (req, res) => {
   const token = jwt.sign({
     userId: user.id
   }, process.env.ENCRYPTION_KEY!!, {
-    expiresIn: '10m'
+    expiresIn: '30d'
   });
   res.json({
     user,
@@ -52,10 +51,6 @@ app.post("/sessions",  async (req, res) => {
 });
 
 usersController(app, client);
-
-app.get("/", (req, res) => {
-  res.send(`<h1>Hello, world!</h1>`);
-});
 
 app.listen(parseInt(process.env.PORT || "3000", 10), () => {
   console.log(`App running on port ${process.env.PORT}`);
