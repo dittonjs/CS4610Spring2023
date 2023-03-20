@@ -1,11 +1,17 @@
 import express, { Request, RequestHandler } from "express";
 import { PrismaClient, Session, User } from "@prisma/client";
+import path from "path";
 const client = new PrismaClient();
 const app = express();
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from 'uuid';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
+import { engine } from "express-handlebars";
+
+app.engine("hbs", engine({ extname: ".hbs" }));
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "/views"));
 
 app.use(cors());
 app.use(express.json());
@@ -118,17 +124,32 @@ app.get("/me", async (req: RequestWithSession, res) => {
   }
 })
 
-app.get('/cookie', (req, res) => {
-  console.log(req.cookies)
-  res.cookie("test", "I am a test cookie", {
-    sameSite: "none",
-    secure: true,
-  });
-})
+if (process.env.NODE_ENV !== 'production') {
+  app.use((req, res, next) => {
+    if (req.path.match(/\.\w+$/)) {
+      fetch(`${process.env.ASSET_URL}/${req.path}`).then((response) => {
+        if (response.ok) {
+          res.redirect(response.url);
+        } else {
+          // handle dev problems here
+        }
+      });
+    } else {
+      next();
+    }
+  })
+} else {
+  // do prod things
+}
+
 
 app.get("/", (req, res) => {
-  res.send(`<h1>Hello, world!</h1>`);
-});
+  res.render("app", {
+    name: "Joseph",
+    development: true,
+    assetUrl: process.env.ASSET_URL,
+  });
+})
 
 app.listen(3000, () => {
   console.log("I got started!");

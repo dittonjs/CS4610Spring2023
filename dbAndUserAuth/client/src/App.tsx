@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const SignUp = () => {
+export const App = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,24 +13,14 @@ export const SignUp = () => {
       email,
       password
     }
-    const result = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`, {
+    const result = await fetch(`/users`, {
       method: 'post',
       headers: {
         "Content-Type": "application/json"
       },
+      credentials: "include",
       body: JSON.stringify(body)
     });
-
-    const resultBody = await result.json();
-    if (resultBody.token) {
-      window.localStorage.setItem("token", resultBody.token);
-      const result = await fetch(`${import.meta.env.VITE_SERVER_URL}/users/me`, {
-        headers: {
-          "Authorization": `Bearer ${resultBody.token}`
-        }
-      })
-      console.log(await result.json());
-    }
   }
 
   return (
