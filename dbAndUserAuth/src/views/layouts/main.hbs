@@ -15,6 +15,9 @@
     </script>
     <script type="module" src="{{assetUrl}}/@vite/client"></script>
     <script type="module" src="{{assetUrl}}/src/main.tsx"></script>
+  {{else}}
+    <link rel="stylesheet" href="/static/{{cssUrl}}">
+    <script type="module" src="/static/{{jsUrl}}"></script>
   {{/if}}
 </head>
 <body>

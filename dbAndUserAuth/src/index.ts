@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 import { engine } from "express-handlebars";
+import manifest from "./static/manifest.json";
 
 app.engine("hbs", engine({ extname: ".hbs" }));
 app.set("view engine", "hbs");
@@ -139,16 +140,26 @@ if (process.env.NODE_ENV !== 'production') {
     }
   })
 } else {
+  app.use("/static", express.static(path.join(__dirname, "static")))
   // do prod things
 }
 
 
 app.get("/", (req, res) => {
-  res.render("app", {
-    name: "Joseph",
-    development: true,
-    assetUrl: process.env.ASSET_URL,
-  });
+  if (process.env.NODE_ENV === "production") {
+    res.render("app", {
+      development: false,
+      jsUrl: manifest["src/main.tsx"].file,
+      cssUrl: manifest["src/main.css"].file
+    })
+  } else {
+    res.render("app", {
+      name: "Joseph",
+      development: true,
+      assetUrl: process.env.ASSET_URL,
+    });
+  }
+
 })
 
 app.listen(3000, () => {

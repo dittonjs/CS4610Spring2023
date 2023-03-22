@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../contexts/auth";
+import { useApi } from "../hooks/useApi";
 
 export const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const api = useApi();
+  const setToken = useContext(AuthContext);
 
   async function signUp() {
     const body = {
@@ -13,23 +17,11 @@ export const SignUp = () => {
       email,
       password
     }
-    const result = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`, {
-      method: 'post',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    });
 
-    const resultBody = await result.json();
+    const resultBody = await api.post(`${import.meta.env.VITE_SERVER_URL}/users`, body)
+
     if (resultBody.token) {
-      window.localStorage.setItem("token", resultBody.token);
-      const result = await fetch(`${import.meta.env.VITE_SERVER_URL}/users/me`, {
-        headers: {
-          "Authorization": `Bearer ${resultBody.token}`
-        }
-      })
-      console.log(await result.json());
+      setToken(resultBody.token)
     }
   }
 

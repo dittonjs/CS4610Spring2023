@@ -4,6 +4,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { SignUp } from './pages/SignUp'
 import { Dashboard } from './pages/Dashboard'
+import { ApiContext } from './contexts/api'
+import { Api } from './lib/api'
+import { AuthContext } from './contexts/auth'
+import { useAuth } from './hooks/useAuth'
 
 const router = createBrowserRouter([{
   path: "/",
@@ -16,9 +20,17 @@ const router = createBrowserRouter([{
   element: <Dashboard />
 }])
 
+
+
 function App() {
+  const {token, setToken} = useAuth();
+
   return (
-    <RouterProvider router={router} />
+    <AuthContext.Provider value={setToken}>
+      <ApiContext.Provider value={new Api(token)}>
+        <RouterProvider router={router} />
+      </ApiContext.Provider>
+    </AuthContext.Provider>
   )
 }
 

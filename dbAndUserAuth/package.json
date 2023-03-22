@@ -6,7 +6,8 @@
   "scripts": {
     "build": "cd src && tsc",
     "dev": "nodemon src/index.ts",
-    "prod": "node dist/index.js",
+    "prod": "NODE_ENV=production nodemon src/index.ts",
+
     "db:migrate": "prisma migrate dev"
   },
   "devDependencies": {

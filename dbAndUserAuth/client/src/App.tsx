@@ -38,7 +38,7 @@ export const App = () => {
         <input value={email} onChange={e => setEmail(e.target.value)} type="email" />
       </label>
       <label>
-        Password
+        Password yo!
         <input value={password} onChange={e => setPassword(e.target.value)} type="password" />
       </label>
       <button type="button" onClick={signUp}>Sign up</button>
