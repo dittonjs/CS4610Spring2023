@@ -1,5 +1,5 @@
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import { Message, PrismaClient } from "@prisma/client";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
@@ -15,8 +15,15 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   console.log("Connection made");
-  socket.broadcast.emit("new-client");
   // io.emit("new-client");
+  socket.on("new-message", async (data: Message) => {
+    const createdMessage = await client.message.create({
+      data,
+    });
+
+    io.emit("new-message", createdMessage);
+  });
+
 });
 
 app.use(cors());
